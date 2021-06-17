@@ -9,6 +9,8 @@ import (
 
 func MyMux() http.Handler {
 	r := mux.NewRouter()
+
 	r.HandleFunc("/", handlers.HomeHandler)
+	
 	return r
 }
