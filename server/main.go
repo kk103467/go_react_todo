@@ -4,13 +4,11 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
-	"github.com/kk103467/go_react_todo/server/handlers"
+	"github.com/kk103467/go_react_todo/server/router"
 )
 
 func main()  {
-	r := mux.NewRouter()
-    r.HandleFunc("/", handlers.HomeHandler)
+	r := router.MyMux()
 
 	// Bind to a port and pass our router in
     log.Fatal(http.ListenAndServe(":8000", r))
