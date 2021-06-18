@@ -1,16 +1,17 @@
 package presentation
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/kk103467/go_react_todo/server/usecase"
 )
 
-type TodoHandler interface{
+type TodoHandler interface {
 	ViewHandler(w http.ResponseWriter, r *http.Request)
 }
 
-type todoHandler struct{
+type todoHandler struct {
 	Usecase_field usecase.TodoUsecase
 }
 
@@ -22,12 +23,11 @@ func NewTodoHandler(tu usecase.TodoUsecase) TodoHandler {
 
 func (th *todoHandler) ViewHandler(w http.ResponseWriter, r *http.Request) {
 	todos, err := th.Usecase_field.GetAll()
+	
 	if err != nil {
 		w.Write([]byte(err.Error()))
-		return
 	}
-	w.Write([]byte(todos[0].Text))
-	return
+	json.NewEncoder(w).Encode(todos)
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
