@@ -8,8 +8,8 @@ import (
 func MyMux(th TodoHandler) http.Handler {
 	r := mux.NewRouter()
 
-	r.HandleFunc("/", HomeHandler)
-	r.HandleFunc("/view", th.ViewHandler)
+	r.HandleFunc("/api", HomeHandler)
+	r.HandleFunc("/api/view", th.ViewHandler)
 	
 	return r
 }
