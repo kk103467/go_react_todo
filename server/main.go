@@ -12,7 +12,7 @@ func main() {
 	r := router.MyMux()
 
 	// todoRepo := infra.NewTodoRepo()
-
+	// todoUsecase := usecase.NewTodoUsecase(todoRepo)
 	
 
 	log.Fatal(http.ListenAndServe(":8000", r))
