@@ -9,6 +9,7 @@ func MyMux() http.Handler {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/", HomeHandler)
+	// r.HandleFunc("/view", th.ViewHandler)
 	
 	return r
 }

@@ -3,12 +3,11 @@ package presentation
 import (
 	"net/http"
 
-	"github.com/kk103467/go_react_todo/server/domain/model"
 	"github.com/kk103467/go_react_todo/server/usecase"
 )
 
 type TodoHandler interface{
-	ViewHandler(w http.ResponseWriter, r *http.Request) ([]model.Todo, error)
+	ViewHandler(w http.ResponseWriter, r *http.Request)
 }
 
 type todoHandler struct{
@@ -21,12 +20,14 @@ func NewTodoHandler(tu usecase.TodoUsecase) TodoHandler {
 	}
 }
 
-func (th *todoHandler) ViewHandler(w http.ResponseWriter, r *http.Request) ([]model.Todo, error) {
+func (th *todoHandler) ViewHandler(w http.ResponseWriter, r *http.Request) {
 	todos, err := th.Usecase_field.GetAll()
 	if err != nil {
-		return nil, err
+		w.Write([]byte(err.Error()))
+		return
 	}
-	return todos, nil
+	w.Write([]byte(todos[0].Text))
+	return
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
