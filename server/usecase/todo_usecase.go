@@ -10,17 +10,17 @@ type TodoUsecase interface{
 }
 
 type todoUsecase struct{
-	Repo repository.TodoRepo
+	Repo_field repository.TodoRepo
 }
 
 func NewTodoUsecase(tr repository.TodoRepo) TodoUsecase {
 	return &todoUsecase{
-		Repo: tr,
+		Repo_field: tr,
 	}
 }
 
 func (tu *todoUsecase) GetAll() ([]model.Todo, error) {
-	todos, err := tu.Repo.GetAll()
+	todos, err := tu.Repo_field.GetAll()
 	if err != nil {
 		return nil, err
 	}
