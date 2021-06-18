@@ -5,11 +5,11 @@ import (
 	"net/http"
 )
 
-func MyMux() http.Handler {
+func MyMux(th TodoHandler) http.Handler {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/", HomeHandler)
-	// r.HandleFunc("/view", th.ViewHandler)
+	r.HandleFunc("/view", th.ViewHandler)
 	
 	return r
 }
