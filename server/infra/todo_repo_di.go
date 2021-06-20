@@ -14,13 +14,13 @@ func NewTodoRepo() repository.TodoRepo {
 func (tr *todoRepo) GetAll() ([]model.Todo, error) {
 	todo1 := model.Todo{}
 	todo1.Id = 1
-	todo1.Text = "First todo"
-	todo1.Completed = false
+	todo1.Text = "learn about react"
+	todo1.IsCompleted = false
 
 	todo2 := model.Todo{}
 	todo2.Id = 2
-	todo2.Text = "Second todo done"
-	todo2.Completed = true
+	todo2.Text = "meet friend for lunch"
+	todo2.IsCompleted = true
 
 	return []model.Todo{todo1, todo2}, nil
 }
