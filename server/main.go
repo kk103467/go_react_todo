@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"github.com/rs/cors"
 
 	"github.com/kk103467/go_react_todo/server/infra"
 	"github.com/kk103467/go_react_todo/server/usecase"
@@ -15,6 +16,6 @@ func main() {
 	todoHandler := presentation.NewTodoHandler(todoUsecase)
 
 	r := presentation.MyMux(todoHandler)
-	
-	log.Fatal(http.ListenAndServe(":8000", r))
+	corsHandler := cors.Default().Handler(r)
+	log.Fatal(http.ListenAndServe(":8000", corsHandler))
 }
