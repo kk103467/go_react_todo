@@ -1,6 +1,7 @@
 package infra
 
 import (
+	"fmt"
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -35,16 +36,19 @@ func (tr *todoRepo) GetAll() ([]model.Todo, error) {
 	return todos, nil
 }
 
-func (tr *todoRepo) AddTodo() ([]model.Todo, error) {
-	todo1 := model.Todo{}
-	todo1.Id = 1
-	todo1.Text = "learn about react"
-	todo1.IsCompleted = false
+func (tr *todoRepo) AddTodo(newTodo model.Todo) ([]model.Todo, error) {
+	newTodo.Id = 2
+	newTodo.Text = "learn about react"
+	newTodo.IsCompleted = false
 
-	todo2 := model.Todo{}
-	todo2.Id = 2
-	todo2.Text = "meet friend for lunch"
-	todo2.IsCompleted = true
+	query := fmt.Sprintf("INSERT INTO todo_table VALUES(%d, '%s', %t);", newTodo.Id, newTodo.Text, newTodo.IsCompleted)
+	log.Println(query)
 
-	return []model.Todo{todo1, todo2}, nil
+	rows, err := Database.Query(query)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	return []model.Todo{newTodo}, nil
 }

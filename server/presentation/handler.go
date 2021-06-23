@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/kk103467/go_react_todo/server/domain/model"
 	"github.com/kk103467/go_react_todo/server/usecase"
 )
 
@@ -32,7 +33,8 @@ func (th *todoHandler) ViewHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (th *todoHandler) AddHandler(w http.ResponseWriter, r *http.Request) {
-	todos, err := th.Usecase_field.AddTodo()
+	var newTodo model.Todo
+	todos, err := th.Usecase_field.AddTodo(newTodo)
 	
 	if err != nil {
 		w.Write([]byte(err.Error()))
