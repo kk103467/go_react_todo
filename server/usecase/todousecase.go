@@ -7,6 +7,7 @@ import (
 
 type TodoUsecase interface{
 	GetAll() ([]model.Todo, error)
+	AddTodo() ([]model.Todo, error)
 }
 
 type todoUsecase struct{
@@ -21,6 +22,14 @@ func NewTodoUsecase(tr repository.TodoRepo) TodoUsecase {
 
 func (tu *todoUsecase) GetAll() ([]model.Todo, error) {
 	todos, err := tu.Repo_field.GetAll()
+	if err != nil {
+		return nil, err
+	}
+	return todos, nil
+}
+
+func (tu *todoUsecase) AddTodo() ([]model.Todo, error) {
+	todos, err := tu.Repo_field.AddTodo()
 	if err != nil {
 		return nil, err
 	}

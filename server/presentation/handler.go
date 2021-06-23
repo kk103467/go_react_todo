@@ -9,6 +9,7 @@ import (
 
 type TodoHandler interface {
 	ViewHandler(w http.ResponseWriter, r *http.Request)
+	AddHandler(w http.ResponseWriter, r *http.Request)
 }
 
 type todoHandler struct {
@@ -23,6 +24,15 @@ func NewTodoHandler(tu usecase.TodoUsecase) TodoHandler {
 
 func (th *todoHandler) ViewHandler(w http.ResponseWriter, r *http.Request) {
 	todos, err := th.Usecase_field.GetAll()
+	
+	if err != nil {
+		w.Write([]byte(err.Error()))
+	}
+	json.NewEncoder(w).Encode(todos)
+}
+
+func (th *todoHandler) AddHandler(w http.ResponseWriter, r *http.Request) {
+	todos, err := th.Usecase_field.AddTodo()
 	
 	if err != nil {
 		w.Write([]byte(err.Error()))

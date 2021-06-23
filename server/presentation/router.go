@@ -10,6 +10,7 @@ func MyMux(th TodoHandler) http.Handler {
 
 	r.HandleFunc("/api", HomeHandler)
 	r.HandleFunc("/api/view", th.ViewHandler)
+	r.HandleFunc("/api/add", th.AddHandler)
 	
 	return r
 }

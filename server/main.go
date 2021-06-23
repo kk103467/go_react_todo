@@ -1,17 +1,17 @@
 package main
 
 import (
+	"github.com/rs/cors"
 	"log"
 	"net/http"
-	"github.com/rs/cors"
 
-	"github.com/kk103467/go_react_todo/server/infra"
-	"github.com/kk103467/go_react_todo/server/usecase"
+	"github.com/kk103467/go_react_todo/server/infra/di"
 	"github.com/kk103467/go_react_todo/server/presentation"
+	"github.com/kk103467/go_react_todo/server/usecase"
 )
 
 func main() {
-	todoRepo := infra.NewTodoRepo()
+	todoRepo := di.NewTodoRepo()
 	todoUsecase := usecase.NewTodoUsecase(todoRepo)
 	todoHandler := presentation.NewTodoHandler(todoUsecase)
 
