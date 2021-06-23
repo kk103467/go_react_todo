@@ -11,6 +11,9 @@ import (
 )
 
 func main() {
+	infra.ConnectDB()
+	defer infra.Database.Close()
+
 	todoRepo := infra.NewTodoRepo()
 	todoUsecase := usecase.NewTodoUsecase(todoRepo)
 	todoHandler := presentation.NewTodoHandler(todoUsecase)
