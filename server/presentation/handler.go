@@ -38,15 +38,23 @@ func (th *todoHandler) ViewHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (th *todoHandler) AddHandler(w http.ResponseWriter, r *http.Request) {
-	var newTodo model.Todo
-
 	headerContentType := r.Header.Get("Content-type")
-	if headerContentType != "application/x-www-form-urlencoded" {
-		w.WriteHeader(http.StatusUnsupportedMediaType)
+	if headerContentType != "application/json" {
+		msg := "Content-Type header is not application/json"
+		http.Error(w, msg, http.StatusUnsupportedMediaType)
+		return
 	}
-	r.ParseForm()
+	dec := json.NewDecoder(r.Body)
+	dec.DisallowUnknownFields()
 
-	newTodo.Text = r.PostFormValue("text")
+	var t textStruct
+	if err := dec.Decode(&t); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	var newTodo model.Todo
+	newTodo.Text = t.Text
 	newTodo.IsCompleted = false
 
 	err := th.Usecase_field.AddTodo(newTodo)
