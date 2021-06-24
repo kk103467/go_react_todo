@@ -7,7 +7,7 @@ import (
 
 type TodoUsecase interface{
 	GetAll() ([]model.Todo, error)
-	AddTodo(model.Todo) ([]model.Todo, error)
+	AddTodo(model.Todo) (error)
 }
 
 type todoUsecase struct{
@@ -28,10 +28,10 @@ func (tu *todoUsecase) GetAll() ([]model.Todo, error) {
 	return todos, nil
 }
 
-func (tu *todoUsecase) AddTodo(newTodo model.Todo) ([]model.Todo, error) {
-	todos, err := tu.Repo_field.AddTodo(newTodo)
+func (tu *todoUsecase) AddTodo(newTodo model.Todo) (error) {
+	err := tu.Repo_field.AddTodo(newTodo)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return todos, nil
+	return nil
 }

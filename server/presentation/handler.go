@@ -2,11 +2,16 @@ package presentation
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/kk103467/go_react_todo/server/domain/model"
 	"github.com/kk103467/go_react_todo/server/usecase"
 )
+
+type textStruct struct {
+	Text string `json: "text"`
+}
 
 type TodoHandler interface {
 	ViewHandler(w http.ResponseWriter, r *http.Request)
@@ -25,7 +30,7 @@ func NewTodoHandler(tu usecase.TodoUsecase) TodoHandler {
 
 func (th *todoHandler) ViewHandler(w http.ResponseWriter, r *http.Request) {
 	todos, err := th.Usecase_field.GetAll()
-	
+
 	if err != nil {
 		w.Write([]byte(err.Error()))
 	}
@@ -34,12 +39,20 @@ func (th *todoHandler) ViewHandler(w http.ResponseWriter, r *http.Request) {
 
 func (th *todoHandler) AddHandler(w http.ResponseWriter, r *http.Request) {
 	var newTodo model.Todo
-	todos, err := th.Usecase_field.AddTodo(newTodo)
-	
-	if err != nil {
-		w.Write([]byte(err.Error()))
+
+	headerContentType := r.Header.Get("Content-type")
+	if headerContentType != "application/x-www-form-urlencoded" {
+		w.WriteHeader(http.StatusUnsupportedMediaType)
 	}
-	json.NewEncoder(w).Encode(todos)
+	r.ParseForm()
+
+	newTodo.Text = r.PostFormValue("text")
+	newTodo.IsCompleted = false
+
+	err := th.Usecase_field.AddTodo(newTodo)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
