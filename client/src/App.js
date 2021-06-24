@@ -1,8 +1,11 @@
+
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
+
+import HomePage from './pages/HomePage';
 import './App.css';
 
 function App() {
@@ -11,16 +14,12 @@ function App() {
       <div className="App">
         <Switch>
           <Route exact path="/">
-            <Home />
+            <HomePage />
           </Route>
         </Switch>
       </div>
     </Router>
   );
-}
-
-function Home() {
-  return <h2>Home</h2>;
 }
 
 export default App;
