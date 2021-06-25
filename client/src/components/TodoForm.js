@@ -6,7 +6,9 @@ export default function TodoForm(props) {
     const handleSubmit = e => {
         e.preventDefault();
         if (!taskname) return;
-        props.addTodo(taskname);
+        const textobj = {text: taskname}
+        const textjson = JSON.stringify(textobj)
+        props.addTodo(textjson);
         setTaskname("");
     };
 

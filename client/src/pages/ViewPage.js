@@ -12,16 +12,20 @@ export default function ViewPage() {
     axios.get(endpoint + "/todos")
       .then((response) => {
         setTodos(response.data);
-        console.log("helllllo")
       })
       .catch((error) => {
         console.error(`Error: ${error}`);
       })
   }, []);
 
-  const addTodo = (text) => {
-    axios.post(endpoint + "/todo", text)
+  const addTodo = (textjson) => {
+    const headers = {
+      'Content-Type': 'application/json'
+    }
+    // add new todo by the POST request to the server
+    axios.post(endpoint + "/todo", textjson, {headers: headers})
     .then((response) => {
+      // reflect the updated todos based on the response from the server
       setTodos(response.data);
     })
   };
