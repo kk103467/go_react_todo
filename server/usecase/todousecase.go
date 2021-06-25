@@ -35,8 +35,8 @@ func (tu *todoUsecase) AddTodo(newTodo model.Todo) ([]model.Todo, error) {
 		return nil, err
 	}
 
-	// write newTodos to response
-	newTodos, err := tu.Repo_field.GetAll()
+	// write newTodos to the response
+	newTodos, err := tu.GetAll()
 	if err != nil {
 		return nil, err
 	}
