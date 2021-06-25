@@ -39,6 +39,7 @@ func (th *todoHandler) ViewHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (th *todoHandler) AddHandler(w http.ResponseWriter, r *http.Request) {
+	// handle POST request; INSERT
 	headerContentType := r.Header.Get("Content-type")
 	if headerContentType != "application/json" {
 		msg := "Content-Type header is not application/json"
@@ -58,10 +59,15 @@ func (th *todoHandler) AddHandler(w http.ResponseWriter, r *http.Request) {
 	newTodo.Text = t.Text
 	newTodo.IsCompleted = false
 
-	err := th.Usecase_field.AddTodo(newTodo)
+	todos, err := th.Usecase_field.AddTodo(newTodo)
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	// respond to the client; SELECT
+	w.Header().Set("Content-type", "application/json")
+	json.NewEncoder(w).Encode(todos)
+
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {

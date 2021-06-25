@@ -5,7 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 
-import HomePage from './pages/HomePage';
+import ViewPage from './pages/ViewPage';
 import './App.css';
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
       <div className="App">
         <Switch>
           <Route exact path="/">
-            <HomePage />
+            <ViewPage />
           </Route>
         </Switch>
       </div>

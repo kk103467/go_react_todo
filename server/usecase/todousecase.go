@@ -5,12 +5,12 @@ import (
 	"github.com/kk103467/go_react_todo/server/domain/repository"
 )
 
-type TodoUsecase interface{
+type TodoUsecase interface {
 	GetAll() ([]model.Todo, error)
-	AddTodo(model.Todo) (error)
+	AddTodo(model.Todo) ([]model.Todo, error)
 }
 
-type todoUsecase struct{
+type todoUsecase struct {
 	Repo_field repository.TodoRepo
 }
 
@@ -28,10 +28,17 @@ func (tu *todoUsecase) GetAll() ([]model.Todo, error) {
 	return todos, nil
 }
 
-func (tu *todoUsecase) AddTodo(newTodo model.Todo) (error) {
+func (tu *todoUsecase) AddTodo(newTodo model.Todo) ([]model.Todo, error) {
+	// handle POST request
 	err := tu.Repo_field.AddTodo(newTodo)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+
+	// write newTodos to response
+	newTodos, err := tu.Repo_field.GetAll()
+	if err != nil {
+		return nil, err
+	}
+	return newTodos, nil
 }
