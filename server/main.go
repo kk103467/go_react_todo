@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/kk103467/go_react_todo/server/infra"
-	"github.com/kk103467/go_react_todo/server/presentation"
+	"github.com/kk103467/go_react_todo/server/infrastructure"
+	"github.com/kk103467/go_react_todo/server/controller"
 	"github.com/kk103467/go_react_todo/server/usecase"
 )
 
