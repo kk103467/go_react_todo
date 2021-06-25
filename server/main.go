@@ -1,24 +1,24 @@
 package main
 
 import (
-	"github.com/rs/cors"
 	"log"
 	"net/http"
 
-	"github.com/kk103467/go_react_todo/server/infrastructure"
 	"github.com/kk103467/go_react_todo/server/controller"
+	"github.com/kk103467/go_react_todo/server/infrastructure"
 	"github.com/kk103467/go_react_todo/server/usecase"
+	"github.com/rs/cors"
 )
 
 func main() {
-	infra.ConnectDB()
-	defer infra.Database.Close()
+	infrastructure.ConnectDB()
+	defer infrastructure.Database.Close()
 
-	todoRepo := infra.NewTodoRepo()
+	todoRepo := infrastructure.NewTodoRepo()
 	todoUsecase := usecase.NewTodoUsecase(todoRepo)
-	todoHandler := presentation.NewTodoHandler(todoUsecase)
+	todoHandler := controller.NewTodoHandler(todoUsecase)
 
-	r := presentation.MyMux(todoHandler)
+	r := controller.MyMux(todoHandler)
 	corsHandler := cors.Default().Handler(r)
 	log.Fatal(http.ListenAndServe(":8000", corsHandler))
 }

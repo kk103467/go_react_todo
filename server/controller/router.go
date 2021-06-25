@@ -1,4 +1,4 @@
-package presentation
+package controller
 
 import (
 	"github.com/gorilla/mux"
